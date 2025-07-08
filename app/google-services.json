@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "220340955196",
+    "project_id": "smartsort-717c2",
+    "storage_bucket": "smartsort-717c2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220340955196:android:37f1ca68968e4a0cbebb39",
+        "android_client_info": {
+          "package_name": "ca.concordia.smartsortandroidapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkI33NlcyfsxXFOXbYlSDznHsYGnUiQ24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
