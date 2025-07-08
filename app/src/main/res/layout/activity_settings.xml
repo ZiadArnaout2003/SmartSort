@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <TextView
+        android:id="@+id/settings_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2B6B2E"
+        android:padding="16dp"
+        android:text="Settings :"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Language -->
+    <LinearLayout
+        android:id="@+id/language_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/setting_item_bg"
+        android:padding="16dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Language"
+            android:textSize="32sp"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:contentDescription="Arrow"
+            android:src="@drawable/right_arrow" />
+    </LinearLayout>
+
+    <!-- Edit Profile -->
+    <LinearLayout
+        android:id="@+id/edit_profile_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/setting_item_bg"
+        android:padding="16dp"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit Profile"
+            android:textColor="@android:color/black"
+            android:textSize="32sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:contentDescription="User"
+            android:src="@drawable/user" />
+    </LinearLayout>
+
+    <!-- Notifications -->
+    <LinearLayout
+        android:id="@+id/notification_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/setting_item_bg"
+        android:padding="16dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Notification"
+            android:textSize="32sp"
+            android:textColor="@android:color/black" />
+
+        <Switch
+            android:id="@+id/switch_notifications"
+            android:layout_width="64dp"
+            android:layout_height="41dp" />
+    </LinearLayout>
+
+    <!-- Contact Us -->
+    <LinearLayout
+        android:id="@+id/contact_us_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/setting_item_bg"
+        android:padding="16dp"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Contact us"
+            android:textSize="32sp"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:contentDescription="Mail"
+            android:src="@drawable/email" />
+    </LinearLayout>
+
+    <!-- Sign Out -->
+    <LinearLayout
+        android:id="@+id/sign_out_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="67dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Logout"
+            android:src="@drawable/login" />
+
+        <TextView
+            android:layout_width="276dp"
+            android:layout_height="wrap_content"
+            android:text="Sign out"
+            android:textColor="@color/black"
+            android:textSize="50sp" />
+    </LinearLayout>
+
+</LinearLayout>
