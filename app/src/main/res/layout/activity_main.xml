@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/label_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading..."
-        android:textSize="20sp"
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="295dp"
+        android:layout_height="297dp"
         android:layout_gravity="center"
-        android:layout_marginTop="32dp"/>
+        android:layout_marginBottom="108dp"
+        app:layout_constraintBottom_toTopOf="@+id/result_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.387"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/result_text"
+        android:layout_width="161dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="196dp"
+        android:text="Loading..."
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
