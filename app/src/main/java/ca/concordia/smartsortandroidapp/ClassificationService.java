@@ -133,6 +133,9 @@ public class ClassificationService extends Service {
         db.collection(COLLECTION_OUTPUT)
                 .document("latest")
                 .set(data);
+        Intent intent = new Intent("com.smartsort.CLASSIFICATION_COMPLETE");
+        sendBroadcast(intent);
+
     }
     
     public String classify(Bitmap bitmap) {

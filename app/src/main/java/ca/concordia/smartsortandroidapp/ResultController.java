@@ -41,6 +41,7 @@ public class ResultController {
                 });
     }
 
+
     public interface OnResultsFetchedListener {
         void onResults(List<PredictionResult> results);
     }
