@@ -459,6 +459,9 @@ public class MainActivity extends AppCompatActivity {
             paintPieNonRec.setColor(ContextCompat.getColor(this, R.color.gray));
             paintPieNonRec.setTextSize(40f);
             paintPieNonRec.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            barChart.clear();
+            pieChartRecyclable.clear();
+            pieChartNonRecyclable.clear();
             return;
         }
 
