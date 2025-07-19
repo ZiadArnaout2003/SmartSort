@@ -33,6 +33,11 @@ android {
 }
 
 dependencies {
+    implementation ("com.google.firebase:firebase-messaging:23.0.0")
+    implementation ("com.google.firebase:firebase-database:20.3.0")
+    implementation ("com.google.android.gms:play-services-base:18.2.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.auth)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")

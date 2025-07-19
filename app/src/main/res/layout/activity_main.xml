@@ -1,12 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F5F5F5">
 
-    <ListView
-        android:id="@+id/resultListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+    <!-- 1. Header: SmartSort Title -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SmartSort"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 2. Leaf Icon beside the title -->
+    <ImageView
+        android:id="@+id/leafIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/leaf"
+        android:contentDescription="Leaf Icon"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/title"
+        app:layout_constraintTop_toTopOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="@id/title" />
+
+    <!-- 3. Subtitle (Tagline) -->
+    <TextView
+        android:id="@+id/tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recycle with no effort"
+        android:textColor="@color/gray"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/title"
+        />
+
+    <!-- 4. Pie Chart Container -->
+
+    <!-- 5. Statistics Container -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pieChartContainer"
+        android:layout_width="342dp"
+        android:layout_height="192dp"
+        android:layout_marginTop="12dp"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tagline">
+
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartRecyclable"
+            android:layout_width="128dp"
+            android:layout_height="118dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pieChartNonRecyclable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.45"></com.github.mikephil.charting.charts.PieChart>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartNonRecyclable"
+            android:layout_width="128dp"
+            android:layout_height="118dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.45">
+
+        </com.github.mikephil.charting.charts.PieChart>
+
+        <ImageView
+            android:id="@+id/recycleIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Recycle Icon"
+            android:src="@drawable/recycle"
+            app:layout_constraintBottom_toTopOf="@+id/pieChartRecyclable"
+            app:layout_constraintEnd_toStartOf="@+id/trashIcon"
+            app:layout_constraintHorizontal_bias="0.382"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/trashIcon"
+            android:layout_width="45dp"
+            android:layout_height="41dp"
+            android:layout_marginEnd="56dp"
+            android:contentDescription="Trash Icon"
+            android:src="@drawable/trash"
+            app:layout_constraintBottom_toTopOf="@+id/pieChartNonRecyclable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/statisticsContainer"
+        android:layout_width="374dp"
+        android:layout_height="353dp"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pieChartContainer"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/statisticsHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Statistics of"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/stateContainer"
+            android:layout_width="352dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statisticsHeader">
+
+            <TextView
+                android:id="@+id/todayOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:padding="6dp"
+                android:text="Today"
+                android:background="@drawable/rounded_white_background"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/weekOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textColor="#FF000000"
+                android:alpha="0.5"
+                android:padding="6dp"
+                android:text="This Week"
+                android:textSize="16sp"
+               />
+
+            <TextView
+                android:id="@+id/monthOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:padding="6dp"
+                android:text="This Month"
+                android:textColor="#FF000000"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="0dp"
+            android:layout_height="169dp"
+            android:layout_marginTop="24dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stateContainer" />
+
+        <TextView
+            android:id="@+id/totalItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Total items:"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barChart"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:indeterminate="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/statisticsContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pieChartContainer"
+        app:layout_constraintVertical_bias="0.348" />
+
+    <Button
+        android:id="@+id/detailedHistory"
+        android:layout_width="274dp"
+        android:layout_height="41dp"
+        android:backgroundTint="@color/green"
+        android:text="Detailed sorting history ➜"
+        android:padding="3dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/statisticsContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pieChartContainer" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
