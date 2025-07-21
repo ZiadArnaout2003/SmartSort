@@ -99,10 +99,10 @@ public class MainActivity extends AppCompatActivity {
         startService(serviceIntent);
 
         detailedHistoryLink = findViewById(R.id.detailedHistory);
-//        detailedHistoryLink.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, SortingHistoryActivity.class);
-//            startActivity(intent);
-//        });
+        detailedHistoryLink.setOnClickListener(v -> {
+         Intent intent = new Intent(MainActivity.this, SortingHistoryActivity.class);
+          startActivity(intent);
+      });
         barChart = findViewById(R.id.barChart);
         pieChartRecyclable = findViewById(R.id.pieChartRecyclable);
         pieChartNonRecyclable = findViewById(R.id.pieChartNonRecyclable);
