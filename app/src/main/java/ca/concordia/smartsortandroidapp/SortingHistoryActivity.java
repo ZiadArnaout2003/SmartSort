@@ -21,6 +21,8 @@ public class SortingHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        controller = new ResultController();
+
         recyclerView = findViewById(R.id.recycler_history);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HistoryAdapter(this, fullList);
@@ -28,18 +30,19 @@ public class SortingHistoryActivity extends AppCompatActivity {
 
         Spinner typeFilter = findViewById(R.id.spinner_filter_type);
 
-        // Load prediction results from Firebase
-        controller = new ResultController();
-        controller.fetchAllPredictionResults(results -> {
-            fullList.clear();
-            fullList.addAll(results);
-            adapter.notifyDataSetChanged();
+        controller.listenToPredictionResults(results -> {
+            runOnUiThread(() -> {
+                fullList.clear();
+                fullList.addAll(results);
+                filterByType(((Spinner) findViewById(R.id.spinner_filter_type)).getSelectedItem().toString());
+            });
         });
+
 
         // (Optional) Setup filter spinners here
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
-                Arrays.asList("All", "Plastic", "Paper", "Metal", "Glass"));
+                Arrays.asList("All", "Plastic", "Others", "Bottle"));
         typeFilter.setAdapter(spinnerAdapter);
 
         typeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -54,6 +57,9 @@ public class SortingHistoryActivity extends AppCompatActivity {
 
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        ImageView backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(v -> finish());
     }
 
     private void filterByType(String type) {
