@@ -129,10 +129,14 @@ public class ClassificationService extends Service {
         db.collection("predictionHistory")
                 .document(docId)
                 .set(data);
-
+        Map<String, Object> LatestResult = new HashMap<>();
+        LatestResult.put("prediction", result);
+        LatestResult.put("timestamp", timestamp);
+        LatestResult.put("imageUrl", imageUrl);
+        LatestResult.put("status", "done");
         db.collection(COLLECTION_OUTPUT)
                 .document("latest")
-                .set(data);
+                .set(LatestResult);
         Intent intent = new Intent("com.smartsort.CLASSIFICATION_COMPLETE");
         sendBroadcast(intent);
 

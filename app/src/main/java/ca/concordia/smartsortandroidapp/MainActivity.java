@@ -167,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
             updateUIForPeriod("today");
             loadingSpinner.setVisibility(View.GONE);
         }
+        updateUIForPeriod("today");
+        loadingSpinner.setVisibility(View.GONE);
     }
 
     private void fetchLatestLists() {
