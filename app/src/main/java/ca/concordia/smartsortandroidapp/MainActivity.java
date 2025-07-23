@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         IntentFilter filter = new IntentFilter("com.smartsort.CLASSIFICATION_COMPLETE");
         registerReceiver(classificationCompleteReceiver, filter, Context.RECEIVER_EXPORTED);
+        fetchLatestLists();// when coming back from other activity
     }
 
 
