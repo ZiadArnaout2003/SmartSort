@@ -62,4 +62,28 @@ public class ResultController {
                     listener.onResults(resultList);
                 });
     }
+
+    public void listenToPredictionResults(ValueEventListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("predictionHistory")
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null || snapshots == null) return;
+                    List<PredictionResult> resultList = new ArrayList<>();
+                    for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                        String prediction = doc.getString("prediction");
+                        String imageUrl = doc.getString("imageUrl");
+                        Timestamp timestamp = doc.getTimestamp("timestamp");
+                        if (prediction != null && imageUrl != null && timestamp != null) {
+                            resultList.add(new PredictionResult(prediction, imageUrl, timestamp));
+                        }
+                    }
+                    listener.onDataChanged(resultList);
+                });
+    }
+
+    public interface ValueEventListener {
+        void onDataChanged(List<PredictionResult> results);
+    }
+
+
 }
