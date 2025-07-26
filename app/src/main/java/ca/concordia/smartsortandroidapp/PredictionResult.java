@@ -3,7 +3,7 @@ package ca.concordia.smartsortandroidapp;
 import com.google.firebase.Timestamp;
 
 public class PredictionResult {
-    private final String prediction;
+    private String prediction;
     private final String imageUrl;
     private final Timestamp timestamp;
 
@@ -16,9 +16,17 @@ public class PredictionResult {
     public String getPrediction() {
         return prediction;
     }
-
+    public String getPredictionType() {
+        if (prediction != null && prediction.contains(" ")) {
+            return prediction.substring(prediction.indexOf(" ") + 1).trim();
+        }
+        return prediction; // fallback
+    }
     public String getImageUrl() {
         return imageUrl;
+    }
+    public void setPrediction(String prediction) {
+        this.prediction = prediction;
     }
 
     public Timestamp getTimestamp() {

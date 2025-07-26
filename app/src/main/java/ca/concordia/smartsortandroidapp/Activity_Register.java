@@ -18,8 +18,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class Activity_Register extends AppCompatActivity {
 
@@ -65,11 +68,16 @@ public class Activity_Register extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    // Save phone number to Firestore
                                     String uid = mAuth.getCurrentUser().getUid();
                                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                                     Map<String, Object> userData = new HashMap<>();
+                                    SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy 'at' h:mm:ss a z");
+                                    sdf.setTimeZone(TimeZone.getTimeZone("America/Toronto")); // UTC-4 during daylight saving
+                                    String formattedDate = sdf.format(new Date());
+                                    userData.put("createdAt", formattedDate);
+                                    userData.put("email", email);
                                     userData.put("phone", phone);
+                                    userData.put("uid", uid);
                                     db.collection("users").document(uid).set(userData);
 
                                     // Show success message and redirect
