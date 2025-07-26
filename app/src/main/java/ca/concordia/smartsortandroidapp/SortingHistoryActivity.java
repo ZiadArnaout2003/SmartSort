@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.*;
 
-public class SortingHistoryActivity extends AppCompatActivity {
+public class SortingHistoryActivity extends NavigationBar {
 
     private RecyclerView recyclerView;
     private HistoryAdapter adapter;
@@ -19,7 +19,17 @@ public class SortingHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+
+        // Use the layout that includes toolbar, drawer, and content_frame
+        setContentView(R.layout.activity_navigation_bar);
+
+        // Inflate the actual screen content (history UI) inside the drawer layout
+        FrameLayout contentFrame = findViewById(R.id.content_frame);
+        View contentView = getLayoutInflater().inflate(R.layout.activity_history, contentFrame, false);
+        contentFrame.addView(contentView);
+
+        // Setup hamburger menu + drawer
+        setupDrawer();
 
         controller = new ResultController();
 
@@ -34,15 +44,15 @@ public class SortingHistoryActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 fullList.clear();
                 fullList.addAll(results);
-                filterByType(((Spinner) findViewById(R.id.spinner_filter_type)).getSelectedItem().toString());
+                filterByType(typeFilter.getSelectedItem().toString());
             });
         });
 
 
-        // (Optional) Setup filter spinners here
+        // Spinner filter setup
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
-                Arrays.asList("All", "Plastic", "Others", "Bottle"));
+                Arrays.asList("All","0 Can","1 Bottle","2 Others"));
         typeFilter.setAdapter(spinnerAdapter);
 
         typeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -50,16 +60,9 @@ public class SortingHistoryActivity extends AppCompatActivity {
                 filterByType(typeFilter.getSelectedItem().toString());
             }
 
-            /*@Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }*/
-
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        ImageView backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(v -> finish());
     }
 
     private void filterByType(String type) {
