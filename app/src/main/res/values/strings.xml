@@ -2,4 +2,6 @@
     <string name="app_name">SmartSortAndroidApp</string>
     <string name="back">Back</string>
     <string name="history_of_sorting">History of Sorting</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
