@@ -42,7 +42,7 @@ public class SortingHistoryActivity extends AppCompatActivity {
         // (Optional) Setup filter spinners here
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
-                Arrays.asList("All", "Can",  "Bottle", "Others"));
+                Arrays.asList("All", "Plastic", "Others", "Bottle"));
         typeFilter.setAdapter(spinnerAdapter);
 
         typeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -63,17 +63,17 @@ public class SortingHistoryActivity extends AppCompatActivity {
     }
 
     private void filterByType(String type) {
-        List<PredictionResult> filtered = new ArrayList<>();
-
-        for (PredictionResult result : fullList) {
-            String label = result.getPredictionType(); // cleaned label
-            result.setPrediction(label);
-            if (type.equals("All") || label.equalsIgnoreCase(type)) {
-                filtered.add(result);
+        if (type.equals("All")) {
+            adapter = new HistoryAdapter(this, fullList);
+        } else {
+            List<PredictionResult> filtered = new ArrayList<>();
+            for (PredictionResult result : fullList) {
+                if (result.getPrediction().equalsIgnoreCase(type)) {
+                    filtered.add(result);
+                }
             }
+            adapter = new HistoryAdapter(this, filtered);
         }
-
-        adapter = new HistoryAdapter(this, filtered);
         recyclerView.setAdapter(adapter);
     }
 }

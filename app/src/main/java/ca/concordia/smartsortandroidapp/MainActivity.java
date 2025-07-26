@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +46,7 @@ import java.util.TimeZone;
 
 import android.widget.ProgressBar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends NavigationBar {
     private Button detailedHistoryLink;
     private BarChart barChart;
     private PieChart pieChartRecyclable, pieChartNonRecyclable;
@@ -84,25 +85,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("binAlerts")
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d("FCM", "Subscribed to binAlerts");
-                    } else {
-                        Log.e("FCM", "Subscription failed", task.getException());
-                    }
-                });
+        // Set the layout with DrawerLayout, Toolbar, NavigationView, and a FrameLayout to hold main content
+        setContentView(R.layout.activity_navigation_bar);
 
-        Intent serviceIntent = new Intent(this, ClassificationService.class);
-        startService(serviceIntent);
+        FrameLayout contentFrame = findViewById(R.id.content_frame);
+        View contentView = getLayoutInflater().inflate(R.layout.activity_main, contentFrame, false);
+        contentFrame.addView(contentView);
 
-        detailedHistoryLink = findViewById(R.id.detailedHistory);
-        detailedHistoryLink.setOnClickListener(v -> {
-         Intent intent = new Intent(MainActivity.this, SortingHistoryActivity.class);
-          startActivity(intent);
-      });
+        setupDrawer();
+
         barChart = findViewById(R.id.barChart);
         pieChartRecyclable = findViewById(R.id.pieChartRecyclable);
         pieChartNonRecyclable = findViewById(R.id.pieChartNonRecyclable);
@@ -120,14 +112,27 @@ public class MainActivity extends AppCompatActivity {
         gson = new Gson();
         listType = new TypeToken<List<PredictionResult>>() {}.getType();
 
-        // Load cached lists and counts if available
+        // Load cached data if any
         loadCache();
 
         setupTabListeners();
 
+        // Subscribe to FCM topic
+        FirebaseMessaging.getInstance().subscribeToTopic("binAlerts")
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("FCM", "Subscribed to binAlerts");
+                    } else {
+                        Log.e("FCM", "Subscription failed", task.getException());
+                    }
+                });
+
+        // Start classification service
+        Intent serviceIntent = new Intent(this, ClassificationService.class);
+        startService(serviceIntent);
+
         // Fetch fresh data in background
         fetchLatestLists();
-
     }
 
     @Override
@@ -441,7 +446,6 @@ public class MainActivity extends AppCompatActivity {
         pieChartRecyclable.setVisibility(View.VISIBLE);
         pieChartNonRecyclable.setVisibility(View.VISIBLE);
         if (results == null || results.isEmpty()) {
-            Toast.makeText(this, "No data available for " + period, Toast.LENGTH_SHORT).show();
 
             // Set no data text and color first
             barChart.setNoDataText("No data to show for " + period);
