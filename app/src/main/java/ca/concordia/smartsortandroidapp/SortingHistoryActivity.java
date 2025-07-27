@@ -3,7 +3,7 @@ package ca.concordia.smartsortandroidapp;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +21,7 @@ public class SortingHistoryActivity extends NavigationBar {
         super.onCreate(savedInstanceState);
 
         // Use the layout that includes toolbar, drawer, and content_frame
-        setContentView(R.layout.activity_navigation_bar);
+        setContentView(R.layout.navigation_bar);
 
         // Inflate the actual screen content (history UI) inside the drawer layout
         FrameLayout contentFrame = findViewById(R.id.content_frame);

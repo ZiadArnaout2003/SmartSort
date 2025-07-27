@@ -1,7 +1,5 @@
 package ca.concordia.smartsortandroidapp;
 
-import android.util.Log;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.*;

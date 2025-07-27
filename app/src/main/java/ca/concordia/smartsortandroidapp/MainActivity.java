@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,9 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import android.graphics.Typeface;
 import com.github.mikephil.charting.charts.BarChart;
@@ -87,7 +84,7 @@ public class MainActivity extends NavigationBar {
         super.onCreate(savedInstanceState);
 
         // Set the layout with DrawerLayout, Toolbar, NavigationView, and a FrameLayout to hold main content
-        setContentView(R.layout.activity_navigation_bar);
+        setContentView(R.layout.navigation_bar);
 
         FrameLayout contentFrame = findViewById(R.id.content_frame);
         View contentView = getLayoutInflater().inflate(R.layout.activity_main, contentFrame, false);
