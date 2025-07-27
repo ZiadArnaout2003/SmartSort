@@ -7,4 +7,8 @@
         android:id="@+id/nav_history"
         android:title="Sorting History"
         android:icon="@drawable/history" />
+    <item
+        android:id="@+id/nav_bin_status"
+        android:title="Bin Status"
+        android:icon="@drawable/status" />
 </menu>

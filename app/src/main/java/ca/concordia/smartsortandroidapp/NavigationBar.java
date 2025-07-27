@@ -18,7 +18,6 @@ public class NavigationBar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Do NOT setContentView here — child classes will do it
     }
 
     protected void setupDrawer() {
@@ -26,7 +25,6 @@ public class NavigationBar extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // This automatically shows the hamburger icon and handles open/close
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open,
