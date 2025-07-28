@@ -58,8 +58,6 @@ public class SortingHistoryActivity extends AppCompatActivity {
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        ImageView backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(v -> finish());
     }
 
     private void filterByType(String type) {
