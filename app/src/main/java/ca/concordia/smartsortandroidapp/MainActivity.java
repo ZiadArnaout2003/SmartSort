@@ -46,7 +46,7 @@ import java.util.TimeZone;
 
 import android.widget.ProgressBar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends NavigationBar {
     private Button detailedHistoryLink;
     private BarChart barChart;
     private PieChart pieChartRecyclable, pieChartNonRecyclable;
@@ -85,8 +85,39 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        // Set the layout with DrawerLayout, Toolbar, NavigationView, and a FrameLayout to hold main content
+        setContentView(R.layout.activity_navigation_bar);
+
+        FrameLayout contentFrame = findViewById(R.id.content_frame);
+        View contentView = getLayoutInflater().inflate(R.layout.activity_main, contentFrame, false);
+        contentFrame.addView(contentView);
+
+        setupDrawer();
+
+        barChart = contentView.findViewById(R.id.barChart);
+        pieChartRecyclable = contentView.findViewById(R.id.pieChartRecyclable);
+        pieChartNonRecyclable = contentView.findViewById(R.id.pieChartNonRecyclable);
+        todayTab = contentView.findViewById(R.id.todayOption);
+        weekTab = contentView.findViewById(R.id.weekOption);
+        monthTab = contentView.findViewById(R.id.monthOption);
+        tabContainer = contentView.findViewById(R.id.stateContainer);
+        totalCountView = contentView.findViewById(R.id.totalItems);
+        loadingSpinner = contentView.findViewById(R.id.loadingSpinner);
+        loadingSpinner.setVisibility(View.VISIBLE);
+
+        controller = new ResultController();
+
+        cache = getSharedPreferences("PredictionCache", MODE_PRIVATE);
+        gson = new Gson();
+        listType = new TypeToken<List<PredictionResult>>() {}.getType();
+
+        // Load cached data if any
+        loadCache();
+
+        setupTabListeners();
+
+        // Subscribe to FCM topic
         FirebaseMessaging.getInstance().subscribeToTopic("binAlerts")
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -96,39 +127,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        // Start classification service
         Intent serviceIntent = new Intent(this, ClassificationService.class);
         startService(serviceIntent);
 
-        detailedHistoryLink = findViewById(R.id.detailedHistory);
-        detailedHistoryLink.setOnClickListener(v -> {
-         Intent intent = new Intent(MainActivity.this, SortingHistoryActivity.class);
-          startActivity(intent);
-      });
-        barChart = findViewById(R.id.barChart);
-        pieChartRecyclable = findViewById(R.id.pieChartRecyclable);
-        pieChartNonRecyclable = findViewById(R.id.pieChartNonRecyclable);
-        todayTab = findViewById(R.id.todayOption);
-        weekTab = findViewById(R.id.weekOption);
-        monthTab = findViewById(R.id.monthOption);
-        tabContainer = findViewById(R.id.stateContainer);
-        totalCountView = findViewById(R.id.totalItems);
-        loadingSpinner = findViewById(R.id.loadingSpinner);
-        loadingSpinner.setVisibility(View.VISIBLE);
-
-        controller = new ResultController();
-
-        cache = getSharedPreferences("PredictionCache", MODE_PRIVATE);
-        gson = new Gson();
-        listType = new TypeToken<List<PredictionResult>>() {}.getType();
-
-        // Load cached lists and counts if available
-        loadCache();
-
-        setupTabListeners();
-
         // Fetch fresh data in background
         fetchLatestLists();
-
     }
 
     @Override
@@ -390,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
     private final BroadcastReceiver classificationCompleteReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-           fetchLatestLists();
+            fetchLatestLists();
         }
     };
     private void setSelectedTab(TextView selectedTab) {
@@ -442,7 +446,6 @@ public class MainActivity extends AppCompatActivity {
         pieChartRecyclable.setVisibility(View.VISIBLE);
         pieChartNonRecyclable.setVisibility(View.VISIBLE);
         if (results == null || results.isEmpty()) {
-            Toast.makeText(this, "No data available for " + period, Toast.LENGTH_SHORT).show();
 
             // Set no data text and color first
             barChart.setNoDataText("No data to show for " + period);

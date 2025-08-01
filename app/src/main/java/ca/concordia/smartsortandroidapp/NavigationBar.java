@@ -40,6 +40,8 @@ public class NavigationBar extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class));
             } else if (id == R.id.nav_history) {
                 startActivity(new Intent(this, SortingHistoryActivity.class));
+            }else if (id == R.id.nav_bin_status) {
+                startActivity(new Intent(this, BinStatus.class));
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;

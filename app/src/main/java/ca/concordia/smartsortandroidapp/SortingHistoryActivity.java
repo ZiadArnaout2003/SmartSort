@@ -33,12 +33,12 @@ public class SortingHistoryActivity extends NavigationBar {
 
         controller = new ResultController();
 
-        recyclerView = findViewById(R.id.recycler_history);
+        recyclerView = contentView.findViewById(R.id.recycler_history);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HistoryAdapter(this, fullList);
         recyclerView.setAdapter(adapter);
 
-        Spinner typeFilter = findViewById(R.id.spinner_filter_type);
+        Spinner typeFilter = contentView.findViewById(R.id.spinner_filter_type);
 
         controller.listenToPredictionResults(results -> {
             runOnUiThread(() -> {
