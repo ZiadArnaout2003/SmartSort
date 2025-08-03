@@ -49,7 +49,7 @@ import android.widget.ProgressBar;
 public class MainActivity extends NavigationBar {
     private Button detailedHistoryLink;
     private BarChart barChart;
-    private PieChart pieChartRecyclable, pieChartNonRecyclable;
+    private PieChart pieChartRecyclable, pieChartOthers;
     private TextView todayTab, weekTab, monthTab;
     private LinearLayout tabContainer;
     private TextView totalCountView;
@@ -70,14 +70,14 @@ public class MainActivity extends NavigationBar {
     private int bottleCountMonth = 0;
 
     private int recyclableCountToday = 0;
-    private int nonRecyclableCountToday = 0;
+    private int OthersToday = 0;
 
     private int recyclableCountWeek = 0;
-    private int nonRecyclableCountWeek = 0;
+    private int OthersWeek = 0;
 
     private int recyclableCountMonth = 0;
-    private int nonRecyclableCountMonth = 0;
-
+    private int OthersMonth = 0;
+    private String currentRecyclable = "cans_bottles";
     private SharedPreferences cache;
     private Gson gson;
     private Type listType;
@@ -94,10 +94,12 @@ public class MainActivity extends NavigationBar {
         contentFrame.addView(contentView);
 
         setupDrawer();
+        SharedPreferences userPrefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        currentRecyclable = userPrefs.getString("current_recyclable", "cans_bottles"); // default
 
         barChart = contentView.findViewById(R.id.barChart);
         pieChartRecyclable = contentView.findViewById(R.id.pieChartRecyclable);
-        pieChartNonRecyclable = contentView.findViewById(R.id.pieChartNonRecyclable);
+        pieChartOthers = contentView.findViewById(R.id.pieChartOthers);
         todayTab = contentView.findViewById(R.id.todayOption);
         weekTab = contentView.findViewById(R.id.weekOption);
         monthTab = contentView.findViewById(R.id.monthOption);
@@ -150,7 +152,25 @@ public class MainActivity extends NavigationBar {
         unregisterReceiver(classificationCompleteReceiver);
     }
 
+    private int getRecyclableCountForSetting(String period) {
+        switch (currentRecyclable) {
+            case "cans":
+                if (period.equals("today")) return canCountToday;
+                else if (period.equals("week")) return canCountWeek;
+                else return canCountMonth;
 
+            case "bottles":
+                if (period.equals("today")) return bottleCountToday;
+                else if (period.equals("week")) return bottleCountWeek;
+                else return bottleCountMonth;
+
+            case "cans_bottles":
+            default:
+                if (period.equals("today")) return canCountToday + bottleCountToday;
+                else if (period.equals("week")) return canCountWeek + bottleCountWeek;
+                else return canCountMonth + bottleCountMonth;
+        }
+    }
     private void loadCache() {
         String cachedToday = cache.getString("cache_today", null);
         String cachedWeek = cache.getString("cache_week", null);
@@ -163,11 +183,17 @@ public class MainActivity extends NavigationBar {
 
             // Load cached counts for each period
             recyclableCountToday = cache.getInt("recyclableCount_today", 0);
-            nonRecyclableCountToday = cache.getInt("nonRecyclableCount_today", 0);
+            OthersToday = cache.getInt("Others_today", 0);
             recyclableCountWeek = cache.getInt("recyclableCount_week", 0);
-            nonRecyclableCountWeek = cache.getInt("nonRecyclableCount_week", 0);
+            OthersWeek = cache.getInt("Others_week", 0);
             recyclableCountMonth = cache.getInt("recyclableCount_month", 0);
-            nonRecyclableCountMonth = cache.getInt("nonRecyclableCount_month", 0);
+            OthersMonth = cache.getInt("Others_month", 0);
+            canCountToday = cache.getInt("canCount_today", 0);
+            bottleCountToday = cache.getInt("bottleCount_today", 0);
+            canCountWeek = cache.getInt("canCount_week", 0);
+            bottleCountWeek = cache.getInt("bottleCount_week", 0);
+            canCountMonth = cache.getInt("canCount_month", 0);
+            bottleCountMonth = cache.getInt("bottleCount_month", 0);
 
             // Show cached data for today tab by default
             updateUIForPeriod("today");
@@ -231,11 +257,11 @@ public class MainActivity extends NavigationBar {
                     .putInt("canCount_month", canCountMonth)
                     .putInt("bottleCount_month", bottleCountMonth)
                     .putInt("recyclableCount_today", recyclableCountToday)
-                    .putInt("nonRecyclableCount_today", nonRecyclableCountToday)
+                    .putInt("Others_today", OthersToday)
                     .putInt("recyclableCount_week", recyclableCountWeek)
-                    .putInt("nonRecyclableCount_week", nonRecyclableCountWeek)
+                    .putInt("Others_week", OthersWeek)
                     .putInt("recyclableCount_month", recyclableCountMonth)
-                    .putInt("nonRecyclableCount_month", nonRecyclableCountMonth)
+                    .putInt("Others_month", OthersMonth)
                     // Cache timestamps for each period
                     .putLong("cache_today_time", System.currentTimeMillis())
                     .putLong("cache_week_time", System.currentTimeMillis())
@@ -251,7 +277,7 @@ public class MainActivity extends NavigationBar {
 
     private void classifyPredictions(List<PredictionResult> results, String period) {
         int recyclable = 0;
-        int nonRecyclable = 0;
+        int Others = 0;
         int canCount = 0;     // '0'
         int bottleCount = 0;  // '1'
 
@@ -266,7 +292,7 @@ public class MainActivity extends NavigationBar {
                     recyclable++;
                     bottleCount++;
                 } else {
-                    nonRecyclable++;
+                    Others++;
                 }
             }
         }
@@ -274,19 +300,19 @@ public class MainActivity extends NavigationBar {
         switch (period) {
             case "today":
                 recyclableCountToday = recyclable;
-                nonRecyclableCountToday = nonRecyclable;
+                OthersToday = Others;
                 canCountToday = canCount;
                 bottleCountToday = bottleCount;
                 break;
             case "week":
                 recyclableCountWeek = recyclable;
-                nonRecyclableCountWeek = nonRecyclable;
+                OthersWeek = Others;
                 canCountWeek = canCount;
                 bottleCountWeek = bottleCount;
                 break;
             case "month":
                 recyclableCountMonth = recyclable;
-                nonRecyclableCountMonth = nonRecyclable;
+                OthersMonth = Others;
                 canCountMonth = canCount;
                 bottleCountMonth = bottleCount;
                 break;
@@ -294,12 +320,12 @@ public class MainActivity extends NavigationBar {
     }
 
 
-    private void setupPieCharts(int recyclableCount, int nonRecyclableCount) {
-        int total = recyclableCount + nonRecyclableCount;
+    private void setupPieCharts(int recyclableCount, int Others) {
+        int total = recyclableCount + Others;
         if (total == 0) total = 1; // avoid division by zero
 
         setupSinglePieChart(pieChartRecyclable, ((float) recyclableCount / total) * 100, ContextCompat.getColor(this, R.color.green));
-        setupSinglePieChart(pieChartNonRecyclable, ((float) nonRecyclableCount / total) * 100, ContextCompat.getColor(this, R.color.gray));
+        setupSinglePieChart(pieChartOthers, ((float) Others / total) * 100, ContextCompat.getColor(this, R.color.gray));
     }
 
     private void setupSinglePieChart(PieChart chart, float percentage, int mainColor) {
@@ -326,10 +352,10 @@ public class MainActivity extends NavigationBar {
         chart.invalidate();
     }
 
-    private void setupBarChart(int recyclable, int nonRecyclable) {
+    private void setupBarChart(int recyclable, int Others) {
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, recyclable));
-        entries.add(new BarEntry(1, nonRecyclable));
+        entries.add(new BarEntry(1, Others));
 
         BarDataSet dataSet;
         if (barChart.getData() == null || barChart.getData().getDataSetCount() == 0) {
@@ -349,7 +375,7 @@ public class MainActivity extends NavigationBar {
             barChart.notifyDataSetChanged();
         }
 
-        String[] labels = {"Recyclable", "Non-Recyclable"};
+        String[] labels = {currentRecyclable, "Others"};
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
 
@@ -363,7 +389,7 @@ public class MainActivity extends NavigationBar {
         YAxis yAxisLeft = barChart.getAxisLeft();
         yAxisLeft.setAxisMinimum(0f);
         yAxisLeft.setGranularity(1f);
-        yAxisLeft.setAxisMaximum(Math.max(recyclable, nonRecyclable) + 5);
+        yAxisLeft.setAxisMaximum(Math.max(recyclable, Others) + 5);
         yAxisLeft.setTextSize(14f);
         yAxisLeft.setDrawAxisLine(true);
         yAxisLeft.setDrawGridLines(true);
@@ -414,37 +440,37 @@ public class MainActivity extends NavigationBar {
 
     private void updateUIForPeriod(String period) {
         List<PredictionResult> results;
-        int recyclable;
-        int nonRecyclable;
+        int selectedRecyclable;
+        int Others;
 
         switch (period) {
             case "week":
                 results = weekResults;
-                recyclable = recyclableCountWeek;
-                nonRecyclable = nonRecyclableCountWeek;
+                selectedRecyclable = getRecyclableCountForSetting("week");
+                Others = OthersWeek;
                 setSelectedTab(weekTab);
                 break;
             case "month":
                 results = monthResults;
-                recyclable = recyclableCountMonth;
-                nonRecyclable = nonRecyclableCountMonth;
+                selectedRecyclable = getRecyclableCountForSetting("month");
+                Others = OthersMonth;
                 setSelectedTab(monthTab);
                 break;
             case "today":
             default:
                 results = todayResults;
-                recyclable = recyclableCountToday;
-                nonRecyclable = nonRecyclableCountToday;
+                selectedRecyclable = getRecyclableCountForSetting("today");
+                Others = OthersToday;
                 setSelectedTab(todayTab);
                 break;
         }
 
-        int total = recyclable + nonRecyclable;
+        int total = selectedRecyclable + Others;
         String text = "Total items: " + total;
         totalCountView.setText(text);
         barChart.setVisibility(View.VISIBLE);
         pieChartRecyclable.setVisibility(View.VISIBLE);
-        pieChartNonRecyclable.setVisibility(View.VISIBLE);
+        pieChartOthers.setVisibility(View.VISIBLE);
         if (results == null || results.isEmpty()) {
 
             // Set no data text and color first
@@ -461,18 +487,18 @@ public class MainActivity extends NavigationBar {
             paintPieRec.setTextSize(40f);
             paintPieRec.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 
-            pieChartNonRecyclable.setNoDataText("No data");
-            Paint paintPieNonRec = pieChartNonRecyclable.getPaint(Chart.PAINT_INFO);
+            pieChartOthers.setNoDataText("No data");
+            Paint paintPieNonRec = pieChartOthers.getPaint(Chart.PAINT_INFO);
             paintPieNonRec.setColor(ContextCompat.getColor(this, R.color.gray));
             paintPieNonRec.setTextSize(40f);
             paintPieNonRec.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
             barChart.clear();
             pieChartRecyclable.clear();
-            pieChartNonRecyclable.clear();
+            pieChartOthers.clear();
             return;
         }
 
-        setupBarChart(recyclable, nonRecyclable);
-        setupPieCharts(recyclable, nonRecyclable);
+        setupBarChart(selectedRecyclable, Others);
+        setupPieCharts(selectedRecyclable, Others);
     }
 }
