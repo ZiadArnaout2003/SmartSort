@@ -11,4 +11,8 @@
         android:id="@+id/nav_bin_status"
         android:title="Bin Status"
         android:icon="@drawable/status" />
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings"
+        android:icon="@drawable/settings" />
 </menu>
