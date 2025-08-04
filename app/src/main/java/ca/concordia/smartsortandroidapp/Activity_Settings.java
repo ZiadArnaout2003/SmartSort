@@ -1,11 +1,15 @@
 package ca.concordia.smartsortandroidapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +51,47 @@ public class Activity_Settings extends AppCompatActivity {
                 startActivity(emailIntent);
             } catch (Exception e) {
                 Toast.makeText(this, "No email app installed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // New: Setup Spinner for bar chart comparison
+        Spinner comparisonSpinner = findViewById(R.id.spinner_recyclable_comparison);
+        String[] options = {"Recyclable vs Non-Recyclable", "Bottles vs Others", "Cans vs Others", "Cans & Bottles vs Others"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        comparisonSpinner.setAdapter(adapter);
+
+        // Load saved preference and set initial selection
+        SharedPreferences prefs = getSharedPreferences("AppSettings", MODE_PRIVATE);
+        String savedComparison = prefs.getString("bar_chart_comparison", "recyclable_vs_non_recyclable");
+        int selectedPosition = 0;
+        switch (savedComparison) {
+            case "bottles_vs_others":
+                selectedPosition = 1;
+                break;
+            case "cans_vs_others":
+                selectedPosition = 2;
+                break;
+            case "can_bottles_vs_others":
+                selectedPosition = 3;
+                break;
+            // Default is 0: "recyclable_vs_non_recyclable"
+        }
+        comparisonSpinner.setSelection(selectedPosition);
+
+        // Save selection to SharedPreferences
+        comparisonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] values = {"recyclable_vs_non_recyclable", "bottles_vs_others", "cans_vs_others", "can_bottles_vs_others"};
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("bar_chart_comparison", values[position]);
+                editor.apply();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
             }
         });
 
