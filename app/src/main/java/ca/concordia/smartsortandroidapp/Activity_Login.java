@@ -30,6 +30,8 @@ public class Activity_Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        getWindow().setStatusBarColor(getColor(R.color.green));
+        getWindow().getDecorView().setSystemUiVisibility(0);
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
@@ -75,6 +77,7 @@ public class Activity_Login extends AppCompatActivity {
                             }
                         });
             }
+
         });
         // Set signup button click listener to redirect to RegisterActivity
         btnSignup.setOnClickListener(new View.OnClickListener() {
