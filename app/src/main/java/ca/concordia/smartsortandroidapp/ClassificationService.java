@@ -158,7 +158,7 @@ public class ClassificationService extends Service {
             }
         }
 
-        if (maxProb < 0.50f) {
+        if (maxProb < 0.80f) {
             return "2 Others";
         }
 
