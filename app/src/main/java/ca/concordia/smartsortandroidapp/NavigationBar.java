@@ -18,7 +18,12 @@ public class NavigationBar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().setStatusBarColor(getColor(R.color.green));
+
+        getWindow().getDecorView().setSystemUiVisibility(0);
     }
+
 
     protected void setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);

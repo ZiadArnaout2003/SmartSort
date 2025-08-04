@@ -7,6 +7,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,8 @@ public class Activity_Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        getWindow().setStatusBarColor(getColor(R.color.green));
+        getWindow().getDecorView().setSystemUiVisibility(0);
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
@@ -97,6 +100,9 @@ public class Activity_Register extends AppCompatActivity {
                         });
             }
         });
+
+        ImageButton btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> onBackPressed());
     }
 
     // Client-side validation method
