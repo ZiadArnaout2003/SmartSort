@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="#F5F5F5"
     android:orientation="vertical"
-    android:background="#FFFFFF"
     android:padding="16dp">
 
     <ImageView
@@ -18,7 +17,7 @@
     <!-- Header -->
     <TextView
         android:id="@+id/settings_title"
-        android:layout_width="match_parent"
+        android:layout_width="377dp"
         android:layout_height="wrap_content"
         android:background="#2B6B2E"
         android:padding="16dp"
@@ -44,14 +43,15 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:text="Edit Password"
-            android:textColor="@android:color/black"
-            android:textSize="26sp" />
+            android:textColor="@color/gray"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:contentDescription="User"
-            android:src="@drawable/user" />
+            android:src="@drawable/contact" />
     </LinearLayout>
 
 
@@ -60,10 +60,10 @@
         android:id="@+id/contact_us_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
         android:background="@drawable/setting_item_bg"
-        android:padding="16dp"
-        android:layout_marginTop="12dp">
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <Button
             android:id="@+id/button_contact_us"
@@ -72,14 +72,15 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:text="Contact us"
-            android:textColor="@android:color/black"
-            android:textSize="26sp" />
+            android:textColor="@color/gray"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:contentDescription="Mail"
-            android:src="@drawable/email" />
+            android:src="@drawable/mail_gray" />
     </LinearLayout>
 
     <LinearLayout
@@ -95,14 +96,16 @@
             android:layout_width="wrap_content"
             android:layout_height="43dp"
             android:layout_marginBottom="8dp"
-            android:text="Graph Comparison"
+            android:text="Compare others with"
+            android:textColor="@color/gray"
             android:textSize="26sp"
             android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/spinner_recyclable_comparison"
             android:layout_width="match_parent"
-            android:layout_height="52dp" />
+            android:layout_height="52dp"
+            android:textColor="@color/gray" />
 
     </LinearLayout>
 
@@ -118,22 +121,19 @@
         android:padding="16dp">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="67dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Logout"
-            android:src="@drawable/login" />
-
+            android:layout_width="66dp"
+            android:layout_height="71dp"
+            android:contentDescription="Mail"
+            android:src="@drawable/logout" />
         <Button
             android:id="@+id/SignOut"
             android:layout_width="276dp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="Sign out"
-            android:textColor="@color/black"
+            android:textColor="@color/green"
             android:textSize="50sp" />
     </LinearLayout>
-
 
 
 </LinearLayout>
