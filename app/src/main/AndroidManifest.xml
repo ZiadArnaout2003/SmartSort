@@ -32,6 +32,12 @@
             android:name=".Activity_Register"
             android:exported="false" />
         <activity
+            android:name=".Activity_Settings"
+            android:exported="true" />
+        <activity
+            android:name=".Activity_ChangePassword"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"/>
         <activity
@@ -40,6 +46,7 @@
         <activity
             android:name=".BinStatus"
             android:exported="true">
+
         </activity>
         <activity
             android:name=".Activity_Settings"
