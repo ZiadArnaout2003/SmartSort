@@ -117,3 +117,5 @@ public class SortingHistoryActivity extends NavigationBar {
                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     }
 }
+
+// sjdn ajn'ninkc???
