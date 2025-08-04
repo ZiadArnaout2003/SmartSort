@@ -8,13 +8,6 @@
     android:background="#FFFFFF"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/left_arrow" />
-
     <!-- Header -->
     <TextView
         android:id="@+id/settings_title"
@@ -23,6 +16,7 @@
         android:background="#2B6B2E"
         android:padding="16dp"
         android:text="Settings :"
+        android:layout_marginTop="32dp"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
