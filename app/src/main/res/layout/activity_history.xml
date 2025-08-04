@@ -49,16 +49,6 @@
             android:padding="4dp"
             android:spinnerMode="dropdown"
             tools:ignore="TouchTargetSizeCheck" />
-
-        <Spinner
-            android:id="@+id/spinner_filter_volume"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:padding="4dp"
-            android:spinnerMode="dropdown"
-            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!-- RecyclerView for History -->

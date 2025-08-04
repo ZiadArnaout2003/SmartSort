@@ -6,13 +6,12 @@ public class PredictionResult {
     private String prediction;
     private final String imageUrl;
     private final Timestamp timestamp;
-    private final String volume; // ✅ New field for volume
 
     public PredictionResult(String prediction, String imageUrl, Timestamp timestamp, String volume) {
         this.prediction = prediction;
         this.imageUrl = imageUrl;
         this.timestamp = timestamp;
-        this.volume = volume;
+
     }
 
     public String getPrediction() {
@@ -36,9 +35,5 @@ public class PredictionResult {
 
     public Timestamp getTimestamp() {
         return timestamp;
-    }
-
-    public String getVolume() {
-        return volume;
     }
 }

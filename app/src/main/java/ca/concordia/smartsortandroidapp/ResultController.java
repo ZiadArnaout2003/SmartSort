@@ -54,9 +54,8 @@ public class ResultController {
                         String prediction = doc.getString("prediction");
                         String imageUrl = doc.getString("imageUrl");
                         Timestamp timestamp = doc.getTimestamp("timestamp");
-                        String volume = doc.getString("volume");
 
-                        resultList.add(new PredictionResult(prediction, imageUrl, timestamp, volume));
+                        resultList.add(new PredictionResult(prediction, imageUrl, timestamp));
                     }
                     listener.onResults(resultList);
                 });
@@ -72,9 +71,8 @@ public class ResultController {
                         String prediction = doc.getString("prediction");
                         String imageUrl = doc.getString("imageUrl");
                         Timestamp timestamp = doc.getTimestamp("timestamp");
-                        String volume = doc.getString("volume");
                         if (prediction != null && imageUrl != null && timestamp != null) {
-                            resultList.add(new PredictionResult(prediction, imageUrl, timestamp, volume));
+                            resultList.add(new PredictionResult(prediction, imageUrl, timestamp));
                         }
                     }
                     listener.onDataChanged(resultList);
