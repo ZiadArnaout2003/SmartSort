@@ -15,4 +15,8 @@
         android:id="@+id/nav_settings"
         android:title="Settings"
         android:icon="@drawable/settings" />
+    <item
+        android:id="@+id/nav_DYK"
+        android:icon="@drawable/idea"
+        android:title="Did you know " />
 </menu>
