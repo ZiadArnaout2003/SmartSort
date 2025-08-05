@@ -156,3 +156,5 @@ public class SortingHistoryActivity extends NavigationBar {
         startPicker.show();
     }
 }
+
+// sjdn ajn'ninkc???
