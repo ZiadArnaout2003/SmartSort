@@ -50,6 +50,8 @@ public class NavigationBar extends AppCompatActivity {
                 startActivity(new Intent(this, BinStatus.class));
             } else if (id == R.id.nav_settings) {
                 startActivity(new Intent(this, Activity_Settings.class));
+            } else if (id == R.id.nav_DYK) {
+                startActivity(new Intent(this, Activity_DYK.class));
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);
