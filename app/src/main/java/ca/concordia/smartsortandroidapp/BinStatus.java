@@ -64,8 +64,8 @@ public class BinStatus extends NavigationBar {
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
-        loadStatus("bin1", bin1StatusView, bin1LastFullView, "Recyclable Bin");
-        loadStatus("bin2", bin2StatusView, bin2LastFullView, "Non-Recyclable Bin");
+        loadStatus("bin1", bin1StatusView, bin1LastFullView, "Can_bottles Bin");
+        loadStatus("bin2", bin2StatusView, bin2LastFullView, "Others Bin");
     }
 
     private void loadStatus(String binName, TextView statusView, TextView lastFullView, String RealName) {

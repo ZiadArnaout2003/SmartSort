@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/dyk_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recycling: A Story of Transformation"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- Fact Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2E7D32"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:clipToOutline="true"
+        android:backgroundTintMode="src_over">
+
+        <TextView
+            android:id="@+id/dyk_fact_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Did you know..."
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:lineSpacingExtra="4dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Dots for Navigation -->
+    <LinearLayout
+        android:id="@+id/dots_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+    </LinearLayout>
+
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/btn_back_dashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="← Back to Dashboard"
+        android:backgroundTint="#597B91"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

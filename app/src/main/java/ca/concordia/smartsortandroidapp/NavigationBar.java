@@ -18,12 +18,18 @@ public class NavigationBar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Change status bar to green
+        getWindow().setStatusBarColor(getColor(R.color.green));
+        getWindow().getDecorView().setSystemUiVisibility(0);
     }
 
     protected void setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setBackgroundColor(getResources().getColor(R.color.green));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
@@ -40,9 +46,12 @@ public class NavigationBar extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class));
             } else if (id == R.id.nav_history) {
                 startActivity(new Intent(this, SortingHistoryActivity.class));
-            }else if (id == R.id.nav_bin_status) {
+            } else if (id == R.id.nav_bin_status) {
                 startActivity(new Intent(this, BinStatus.class));
+            } else if (id == R.id.nav_settings) {
+                startActivity(new Intent(this, Activity_Settings.class));
             }
+
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });

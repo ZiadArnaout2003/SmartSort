@@ -4,4 +4,7 @@
     <string name="history_of_sorting">History of Sorting</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="back_to_dashboard">← Back to dashboard</string>
+    <string name="did_you_know_that_recycling_one_plastic_bottle_can_save_enough_energy_to_power_a_60_watt_light_bulb_for_up_to_6_hours">Did you know that recycling one plastic bottle can save enough energy to power a 60‑watt light bulb for up to 6 hours</string>
+    <string name="recycling_a_story_of_transformation">Recycling ♻️: A Story of Transformation</string>
 </resources>
