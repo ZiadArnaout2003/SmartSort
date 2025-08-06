@@ -1,4 +1,4 @@
- package ca.concordia.smartsortandroidapp;
+package ca.concordia.smartsortandroidapp;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.tensorflow.lite.Interpreter;
@@ -35,11 +36,12 @@ public class ClassificationService extends Service {
     private static final String IMAGE_DOC = "latest";
     private static final String COLLECTION_INPUT = "imageUploads";
     private static final String COLLECTION_OUTPUT = "result";
-
     private Interpreter interpreter;
     private List<String> labels;
     private final int imageSize = 224;
     private String lastUrl = "";
+
+    private DatabaseReference realtimeDbRef = com.google.firebase.database.FirebaseDatabase.getInstance().getReference();
 
     @Override
     public void onCreate() {
@@ -118,30 +120,48 @@ public class ClassificationService extends Service {
 
 
     private void sendBackResult(String imageUrl, String result, Date timestamp) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String lowerPrediction = result.toLowerCase();
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("prediction", result);
-        data.put("timestamp", timestamp);
-        data.put("imageUrl", imageUrl);
+        boolean isBottleOrCan = lowerPrediction.contains("bottle") || lowerPrediction.contains("can");
 
-        String docId = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(timestamp);
-        db.collection("predictionHistory")
-                .document(docId)
-                .set(data);
-        Map<String, Object> LatestResult = new HashMap<>();
-        LatestResult.put("prediction", result);
-        LatestResult.put("timestamp", timestamp);
-        LatestResult.put("imageUrl", imageUrl);
-        LatestResult.put("status", "done");
-        db.collection(COLLECTION_OUTPUT)
-                .document("latest")
-                .set(LatestResult);
-        Intent intent = new Intent("com.smartsort.CLASSIFICATION_COMPLETE");
-        sendBroadcast(intent);
+        String binToCheck = isBottleOrCan ? "bin1" : "bin2";
 
+        realtimeDbRef.child(binToCheck).child("status").get().addOnSuccessListener(dataSnapshot -> {
+            String status = dataSnapshot.getValue(String.class);
+
+            if (status != null && status.equals("full")) {
+                return;
+            }
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("prediction", result);
+            data.put("timestamp", timestamp);
+            data.put("imageUrl", imageUrl);
+
+            String docId = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(timestamp);
+            db.collection("predictionHistory")
+                    .document(docId)
+                    .set(data);
+
+            Map<String, Object> LatestResult = new HashMap<>();
+            LatestResult.put("prediction", result);
+            LatestResult.put("timestamp", timestamp);
+            LatestResult.put("imageUrl", imageUrl);
+            LatestResult.put("status", "done");
+
+            db.collection(COLLECTION_OUTPUT)
+                    .document("latest")
+                    .set(LatestResult);
+
+            Intent intent = new Intent("com.smartsort.CLASSIFICATION_COMPLETE");
+            sendBroadcast(intent);
+
+        });
     }
-    
+
+
     public String classify(Bitmap bitmap) {
         Bitmap resized = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, true);
         ByteBuffer inputBuffer = convertBitmapToByteBuffer(resized);
@@ -152,15 +172,13 @@ public class ClassificationService extends Service {
         int maxIdx = 0;
         float maxProb = 0;
         for (int i = 0; i < labels.size(); i++) {
-            float prob = output[0][i];
-            android.util.Log.d("SmartSort", "🔎 Class: " + labels.get(i) + " | Probability: " + prob);
             if (output[0][i] > maxProb) {
                 maxProb = output[0][i];
                 maxIdx = i;
             }
         }
 
-        if (maxProb < 0.70f) {
+        if (maxProb < 0.80f) {
             return "2 Others";
         }
 
