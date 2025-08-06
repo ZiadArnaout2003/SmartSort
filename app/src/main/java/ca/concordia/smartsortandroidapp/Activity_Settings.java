@@ -1,9 +1,13 @@
 package ca.concordia.smartsortandroidapp;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +15,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,19 +33,21 @@ public class Activity_Settings extends NavigationBar {
         contentFrame.addView(contentView);
 
         setupDrawer();
-
-
-        // Edit Profile button
+        Switch notificationsSwitch = contentView.findViewById(R.id.toggleButton);
+        notificationsSwitch.setChecked(areNotificationsEnabled());
+        notificationsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                Toast.makeText(Activity_Settings.this, "Redirecting to settings to " + (isChecked ? "enable" : "disable")+ " notifications ...", Toast.LENGTH_LONG).show();
+                openNotificationSettings();
+        });
         Button editProfileButton = contentView.findViewById(R.id.button_edit_profile);
         editProfileButton.setOnClickListener(v -> {
             Intent intent = new Intent(Activity_Settings.this, Activity_ChangePassword.class);
             startActivity(intent);
         });
 
-        // Sign out Settings button
         Button SigningOut = contentView.findViewById(R.id.SignOut);
         SigningOut.setOnClickListener(v -> {
-            // Sign out from Firebase
+            // We should also sign out from Firebase to avoid problems
             FirebaseAuth.getInstance().signOut();
 
             Intent intent1 = new Intent(Activity_Settings.this, Activity_Login.class);
@@ -60,16 +67,14 @@ public class Activity_Settings extends NavigationBar {
             }
         });
 
-        // New: Setup Spinner for bar chart comparison
         Spinner comparisonSpinner = contentView.findViewById(R.id.spinner_recyclable_comparison);
         String[] options = {"Bottles", "Cans", "Cans & Bottles"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         comparisonSpinner.setAdapter(adapter);
 
-        // Load saved preference and set initial selection
         SharedPreferences prefs = getSharedPreferences("AppSettings", MODE_PRIVATE);
-        String savedComparison = prefs.getString("current_recyclable", "can_bottles");
+        String savedComparison = prefs.getString("current_recyclable", "cans_bottles");
         int selectedPosition = 2;
         switch (savedComparison) {
             case "bottles":
@@ -78,20 +83,18 @@ public class Activity_Settings extends NavigationBar {
             case "cans":
                 selectedPosition = 1;
                 break;
-            case "can_bottles":
+            case "cans_bottles":
                 selectedPosition = 2;
                 break;
-            // Default is 0: "recyclable_vs_non_recyclable"
         }
         comparisonSpinner.setSelection(selectedPosition);
 
-        // Save selection to SharedPreferences
         comparisonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] values = {"bottles", "cans", "can_bottles"};
+                String[] values = {"bottles", "cans", "cans_bottles"};
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("bar_chart_comparison", values[position]);
+                editor.putString("current_recyclable", values[position]);
                 editor.apply();
             }
 
@@ -102,4 +105,27 @@ public class Activity_Settings extends NavigationBar {
         });
 
     }
+    private boolean areNotificationsEnabled() {
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        return manager.areNotificationsEnabled();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Switch notificationsSwitch = findViewById(R.id.toggleButton);
+        notificationsSwitch.setChecked(areNotificationsEnabled());
+    }
+    private void openNotificationSettings() {
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        } else {
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+        }
+        startActivity(intent);
+    }
+
 }

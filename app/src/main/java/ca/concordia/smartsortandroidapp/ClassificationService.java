@@ -152,13 +152,15 @@ public class ClassificationService extends Service {
         int maxIdx = 0;
         float maxProb = 0;
         for (int i = 0; i < labels.size(); i++) {
+            float prob = output[0][i];
+            android.util.Log.d("SmartSort", "🔎 Class: " + labels.get(i) + " | Probability: " + prob);
             if (output[0][i] > maxProb) {
                 maxProb = output[0][i];
                 maxIdx = i;
             }
         }
 
-        if (maxProb < 0.80f) {
+        if (maxProb < 0.70f) {
             return "2 Others";
         }
 

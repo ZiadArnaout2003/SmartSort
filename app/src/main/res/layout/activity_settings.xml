@@ -92,7 +92,7 @@
             android:layout_marginBottom="8dp"
             android:text="Compare others with"
             android:textColor="@color/gray"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <Spinner
@@ -102,14 +102,42 @@
             android:textColor="@color/gray" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/setting_item_bg"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
+        <TextView
+            android:id="@+id/notificationsToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="40dp"
+            android:text="Notifications"
+            android:textColor="@color/gray"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/toggleButton"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="80dp"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:textColor="@color/gray" />
+
+    </LinearLayout>
 
     <!-- Sign Out -->
     <LinearLayout
         android:id="@+id/sign_out_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="50dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp">
@@ -119,6 +147,7 @@
             android:layout_height="71dp"
             android:contentDescription="Mail"
             android:src="@drawable/logout" />
+
         <Button
             android:id="@+id/SignOut"
             android:layout_width="276dp"

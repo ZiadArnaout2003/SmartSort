@@ -7,7 +7,7 @@ public class PredictionResult {
     private final String imageUrl;
     private final Timestamp timestamp;
 
-    public PredictionResult(String prediction, String imageUrl, Timestamp timestamp, String volume) {
+    public PredictionResult(String prediction, String imageUrl, Timestamp timestamp) {
         this.prediction = prediction;
         this.imageUrl = imageUrl;
         this.timestamp = timestamp;

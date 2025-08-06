@@ -94,7 +94,7 @@ public class MainActivity extends NavigationBar {
         contentFrame.addView(contentView);
 
         setupDrawer();
-        SharedPreferences userPrefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences userPrefs = getSharedPreferences("AppSettings", MODE_PRIVATE);
         currentRecyclable = userPrefs.getString("current_recyclable", "cans_bottles"); // default
 
         barChart = contentView.findViewById(R.id.barChart);

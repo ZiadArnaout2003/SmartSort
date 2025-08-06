@@ -13,14 +13,14 @@
 
     <TextView
         android:id="@+id/fact_title"
-        android:layout_width="149dp"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:drawableRight="@drawable/recycle"
         android:text="Recycling :"
         android:textColor="#2B6B2E"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
