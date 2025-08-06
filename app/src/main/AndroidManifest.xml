@@ -36,9 +36,6 @@
             android:name=".Activity_Settings"
             android:exported="true" />
         <activity
-            android:name=".Activity_Settings"
-            android:exported="true" />
-        <activity
             android:name=".Activity_ChangePassword"
             android:exported="true" />
         <activity
