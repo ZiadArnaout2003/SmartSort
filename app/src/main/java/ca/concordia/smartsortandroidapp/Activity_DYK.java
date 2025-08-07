@@ -60,7 +60,7 @@ public class Activity_DYK extends NavigationBar {
     }
 
     static class ViewPagerAdapter extends FragmentStateAdapter {
-        private final String[] facts;
+        private final String fact;
 
         public ViewPagerAdapter(@NonNull Activity_DYK fragmentActivity) {
             super(fragmentActivity);
@@ -75,8 +75,7 @@ public class Activity_DYK extends NavigationBar {
                     jsonString.append(line);
                 }
                 reader.close();
-
-                // Parse JSON using Gson  telechargé depuis internet
+                // Parse JSON using Gson
                 Gson gson = new Gson();
                 Type type = new TypeToken<Map<String, String[]>>(){}.getType();
                 Map<String, String[]> jsonMap = gson.fromJson(jsonString.toString(), type);
@@ -90,25 +89,32 @@ public class Activity_DYK extends NavigationBar {
                 Log.e("Activity_DYK", "Error parsing JSON: " + e.getMessage());
             }
 
-            // In case the json file is not loading we can use these instead
-            facts = (loadedFacts != null && loadedFacts.length > 0) ? loadedFacts : new String[] {
+            // Fallback facts if JSON loading fails
+            String[] fallbackFacts = {
                     "Did you know? Recycling one glass bottle saves enough energy to light a 100-watt bulb for four hours.",
                     "Did you know? Recycling cardboard only takes 75% of the energy required to make new cardboard.",
                     "Did you know? Each ton of recycled paper can save 17 trees, 380 gallons of oil, and 7,000 gallons of water.",
                     "Did you know? Recycling is a $200 billion industry in the U.S.",
                     "Did you know? Recycling 1 ton of cardboard saves 46 gallons of oil."
             };
+
+            // Use loaded facts if available, otherwise use fallback
+            String[] availableFacts = (loadedFacts != null && loadedFacts.length > 0) ? loadedFacts : fallbackFacts;
+
+            // Select a random fact
+            Random random = new Random();
+            fact = availableFacts[random.nextInt(availableFacts.length)];
         }
 
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            return new FactFragment(facts[position]);
+            return new FactFragment(fact);
         }
 
         @Override
         public int getItemCount() {
-            return facts.length;
+            return 1; // Only one fact is shown
         }
     }
 
