@@ -157,4 +157,3 @@ public class SortingHistoryActivity extends NavigationBar {
     }
 }
 
-// sjdn ajn'ninkc???
