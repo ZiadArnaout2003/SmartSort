@@ -51,7 +51,7 @@ public class ClassificationService extends Service {
         startForeground(1, getNotification("Classification service started"));
         try {
             AssetManager assetManager = getAssets();
-            interpreter = new Interpreter(loadModelFile(assetManager, "model_unquant.tflite"));
+            interpreter = new Interpreter(loadModelFile(assetManager, "model_unquant2.tflite"));
             labels = loadLabels(assetManager, "labels.txt");
             listenForImageUpdates();
         } catch (IOException e) {
@@ -128,13 +128,19 @@ public class ClassificationService extends Service {
 
         realtimeDbRef.child(binToCheck).child("status").get().addOnSuccessListener(dataSnapshot -> {
             String status = dataSnapshot.getValue(String.class);
-
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
             if (status != null && status.equals("full")) {
+                Map<String, Object> LatestResult = new HashMap<>();
+                LatestResult.put("prediction", result);
+                LatestResult.put("timestamp", timestamp);
+                LatestResult.put("imageUrl", imageUrl);
+                LatestResult.put("status", "done");
+
+                db.collection(COLLECTION_OUTPUT)
+                        .document("latest")
+                        .set(LatestResult);
                 return;
             }
-
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
             Map<String, Object> data = new HashMap<>();
             data.put("prediction", result);
             data.put("timestamp", timestamp);
@@ -168,7 +174,10 @@ public class ClassificationService extends Service {
 
         float[][] output = new float[1][labels.size()];
         interpreter.run(inputBuffer, output);
-
+        android.util.Log.d("SmartSort", "🔍 Classification probabilities:");
+        for (int i = 0; i < labels.size(); i++) {
+            android.util.Log.d("SmartSort", labels.get(i) + ": " + output[0][i]);
+        }
         int maxIdx = 0;
         float maxProb = 0;
         for (int i = 0; i < labels.size(); i++) {
@@ -178,7 +187,7 @@ public class ClassificationService extends Service {
             }
         }
 
-        if (maxProb < 0.80f) {
+        if (maxProb < 0.70f) {
             return "2 Others";
         }
 
