@@ -41,7 +41,6 @@ public class SortingHistoryActivity extends NavigationBar {
         spinnerFilterType = contentView.findViewById(R.id.spinner_filter_type);
         spinnerFilterDate = contentView.findViewById(R.id.spinner_filter_date);
 
-        // Type filter
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 Arrays.asList("All", "0 Can", "1 Bottle", "2 Others"));

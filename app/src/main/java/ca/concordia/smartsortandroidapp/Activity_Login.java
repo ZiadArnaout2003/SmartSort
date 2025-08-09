@@ -35,7 +35,7 @@ public class Activity_Login extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Find views by ID (based on assumed XML)
+        // Find views by ID
         editTextEmail = findViewById(R.id.edit_email);
         editTextPassword = findViewById(R.id.edit_password);
         buttonLogin = findViewById(R.id.btn_login);

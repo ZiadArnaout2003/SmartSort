@@ -24,7 +24,7 @@ public class BinStatus extends NavigationBar {
     private TextView bin1StatusView, bin2StatusView;
     private TextView bin1LastFullView, bin2LastFullView;
 
-    // Count views (matching your layout)
+    // Count views
     private TextView bin1CanCountView, bin1BottleCountView;
     private TextView bin2OthersCountView, bin1TotalCountView;
 
@@ -71,7 +71,7 @@ public class BinStatus extends NavigationBar {
     private void loadStatus(String binName, TextView statusView, TextView lastFullView, String RealName) {
         DatabaseReference statusRef = databaseRef.child(binName).child("status");
 
-        // Step 1: Get the initial value once to set lastBinStatus properly
+        // Get the initial value once to set lastBinStatus properly
         statusRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
