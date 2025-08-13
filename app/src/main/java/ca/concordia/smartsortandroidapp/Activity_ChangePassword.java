@@ -33,13 +33,13 @@ public class Activity_ChangePassword extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize views
+
         editCurrentPassword = findViewById(R.id.current_password);
         editNewPassword = findViewById(R.id.new_password);
         editConfirmNewPassword = findViewById(R.id.confirm_new_password);
         btnUpdatePassword = findViewById(R.id.update_password_button);
 
-        // Set listener for password update
+
         btnUpdatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +47,7 @@ public class Activity_ChangePassword extends AppCompatActivity {
             }
         });
 
-        // Back to Settings button
+
         ImageView backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(Activity_ChangePassword.this, Activity_Settings.class);
@@ -77,13 +77,13 @@ public class Activity_ChangePassword extends AppCompatActivity {
             return;
         }
 
-        // Reauthenticate user
+
         AuthCredential credential = EmailAuthProvider.getCredential(currentEmail, currentPassword);
         user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    // Update password after successful reauthentication
+
                     user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

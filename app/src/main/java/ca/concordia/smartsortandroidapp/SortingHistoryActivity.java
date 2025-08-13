@@ -46,13 +46,13 @@ public class SortingHistoryActivity extends NavigationBar {
                 Arrays.asList("All", "0 Can", "1 Bottle", "2 Others"));
         spinnerFilterType.setAdapter(typeAdapter);
 
-        // Date filter with Custom Range
+
         ArrayAdapter<String> dateAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 Arrays.asList("All", "Today", "This Week", "Custom Range"));
         spinnerFilterDate.setAdapter(dateAdapter);
 
-        // Listener for filters
+
         AdapterView.OnItemSelectedListener filterListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -71,7 +71,7 @@ public class SortingHistoryActivity extends NavigationBar {
         spinnerFilterType.setOnItemSelectedListener(filterListener);
         spinnerFilterDate.setOnItemSelectedListener(filterListener);
 
-        // Load data from Firestore
+
         controller.listenToPredictionResults(results -> {
             runOnUiThread(() -> {
                 fullList.clear();

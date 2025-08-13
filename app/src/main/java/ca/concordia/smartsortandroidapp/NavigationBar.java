@@ -19,7 +19,7 @@ public class NavigationBar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Change status bar to green
+
         getWindow().setStatusBarColor(getColor(R.color.green));
         getWindow().getDecorView().setSystemUiVisibility(0);
     }

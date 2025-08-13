@@ -86,7 +86,7 @@ public class MainActivity extends NavigationBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set the layout with DrawerLayout, Toolbar, NavigationView, and a FrameLayout to hold main content
+
         setContentView(R.layout.activity_navigation_bar);
 
         FrameLayout contentFrame = findViewById(R.id.content_frame);
@@ -114,12 +114,12 @@ public class MainActivity extends NavigationBar {
         gson = new Gson();
         listType = new TypeToken<List<PredictionResult>>() {}.getType();
 
-        // Load cached data if any
+
         loadCache();
 
         setupTabListeners();
 
-        // Subscribe to FCM topic
+
         FirebaseMessaging.getInstance().subscribeToTopic("binAlerts")
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -129,11 +129,11 @@ public class MainActivity extends NavigationBar {
                     }
                 });
 
-        // Start classification service
+
         Intent serviceIntent = new Intent(this, ClassificationService.class);
         startService(serviceIntent);
 
-        // Fetch fresh data in background
+
         fetchLatestLists();
     }
 
@@ -142,7 +142,7 @@ public class MainActivity extends NavigationBar {
         super.onResume();
         IntentFilter filter = new IntentFilter("com.smartsort.CLASSIFICATION_COMPLETE");
         registerReceiver(classificationCompleteReceiver, filter, Context.RECEIVER_EXPORTED);
-        fetchLatestLists();// when coming back from other activity
+        fetchLatestLists();
     }
 
 
@@ -181,7 +181,7 @@ public class MainActivity extends NavigationBar {
             weekResults = gson.fromJson(cachedWeek, listType);
             monthResults = gson.fromJson(cachedMonth, listType);
 
-            // Load cached counts for each period
+
             recyclableCountToday = cache.getInt("recyclableCount_today", 0);
             OthersToday = cache.getInt("Others_today", 0);
             recyclableCountWeek = cache.getInt("recyclableCount_week", 0);
@@ -195,7 +195,7 @@ public class MainActivity extends NavigationBar {
             canCountMonth = cache.getInt("canCount_month", 0);
             bottleCountMonth = cache.getInt("bottleCount_month", 0);
 
-            // Show cached data for today tab by default
+
             updateUIForPeriod("today");
             loadingSpinner.setVisibility(View.GONE);
         }
@@ -239,17 +239,17 @@ public class MainActivity extends NavigationBar {
                 }
             }
 
-            // Classify and cache counts for each period separately
+
             classifyPredictions(todayResults, "today");
             classifyPredictions(weekResults, "week");
             classifyPredictions(monthResults, "month");
 
             cache.edit()
-                    // Cache lists for each period
+
                     .putString("cache_today", gson.toJson(todayResults))
                     .putString("cache_week", gson.toJson(weekResults))
                     .putString("cache_month", gson.toJson(monthResults))
-                    // Cache counts for each period
+
                     .putInt("canCount_today", canCountToday)
                     .putInt("bottleCount_today", bottleCountToday)
                     .putInt("canCount_week", canCountWeek)
@@ -262,7 +262,7 @@ public class MainActivity extends NavigationBar {
                     .putInt("Others_week", OthersWeek)
                     .putInt("recyclableCount_month", recyclableCountMonth)
                     .putInt("Others_month", OthersMonth)
-                    // Cache timestamps for each period
+
                     .putLong("cache_today_time", System.currentTimeMillis())
                     .putLong("cache_week_time", System.currentTimeMillis())
                     .putLong("cache_month_time", System.currentTimeMillis())
@@ -270,7 +270,7 @@ public class MainActivity extends NavigationBar {
 
             runOnUiThread(() -> {
                 loadingSpinner.setVisibility(View.GONE);
-                updateUIForPeriod("today"); // Refresh UI with updated data for today by default
+                updateUIForPeriod("today");
             });
         });
     }
@@ -322,7 +322,7 @@ public class MainActivity extends NavigationBar {
 
     private void setupPieCharts(int recyclableCount, int Others) {
         int total = recyclableCount + Others;
-        if (total == 0) total = 1; // avoid division by zero
+        if (total == 0) total = 1;
 
         setupSinglePieChart(pieChartRecyclable, ((float) recyclableCount / total) * 100, ContextCompat.getColor(this, R.color.green));
         setupSinglePieChart(pieChartOthers, ((float) Others / total) * 100, ContextCompat.getColor(this, R.color.gray));
@@ -473,12 +473,12 @@ public class MainActivity extends NavigationBar {
         pieChartOthers.setVisibility(View.VISIBLE);
         if (results == null || results.isEmpty()) {
 
-            // Set no data text and color first
+
             barChart.setNoDataText("No data to show for " + period);
 
             Paint paint = barChart.getPaint(Chart.PAINT_INFO);
             paint.setColor(Color.BLACK);
-            paint.setTextSize(40f); // increase size (adjust as needed)
+            paint.setTextSize(40f);
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 
             pieChartRecyclable.setNoDataText("No data");

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Header -->
+
     <TextView
         android:id="@+id/settings_title"
         android:layout_width="377dp"
@@ -21,7 +21,7 @@
         android:textStyle="bold" />
 
 
-    <!-- Edit Profile -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +49,6 @@
     </LinearLayout>
 
 
-    <!-- Contact Us -->
     <LinearLayout
         android:id="@+id/contact_us_option"
         android:layout_width="match_parent"
@@ -132,7 +131,6 @@
 
     </LinearLayout>
 
-    <!-- Sign Out -->
     <LinearLayout
         android:id="@+id/sign_out_option"
         android:layout_width="match_parent"

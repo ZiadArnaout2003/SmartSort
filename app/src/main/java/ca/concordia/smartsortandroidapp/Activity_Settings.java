@@ -47,7 +47,7 @@ public class Activity_Settings extends NavigationBar {
 
         Button SigningOut = contentView.findViewById(R.id.SignOut);
         SigningOut.setOnClickListener(v -> {
-            // We should also sign out from Firebase to avoid problems
+
             FirebaseAuth.getInstance().signOut();
 
             Intent intent1 = new Intent(Activity_Settings.this, Activity_Login.class);
@@ -55,7 +55,7 @@ public class Activity_Settings extends NavigationBar {
             finish();
         });
 
-        // Contact Us button, opens email client
+
         Button contactUsButton = contentView.findViewById(R.id.button_contact_us);
         contactUsButton.setOnClickListener(v -> {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);

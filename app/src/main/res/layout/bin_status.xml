@@ -95,7 +95,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Bin 2 Card -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/bin2Card"
         android:layout_width="0dp"
@@ -131,7 +131,7 @@
                 android:textColor="#666666"
                 android:layout_marginTop="4dp" />
 
-            <!-- Bin 2 Counts: Others and Total -->
+
             <TextView
                 android:id="@+id/text_bin2_others_count"
                 android:layout_width="wrap_content"

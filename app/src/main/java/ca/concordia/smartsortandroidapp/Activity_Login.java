@@ -32,42 +32,42 @@ public class Activity_Login extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.green));
         getWindow().getDecorView().setSystemUiVisibility(0);
-        // Initialize Firebase Auth
+
         mAuth = FirebaseAuth.getInstance();
 
-        // Find views by ID
+
         editTextEmail = findViewById(R.id.edit_email);
         editTextPassword = findViewById(R.id.edit_password);
         buttonLogin = findViewById(R.id.btn_login);
         btnSignup = findViewById(R.id.btn_signup);
 
-        // Set login button click listener
+
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
 
-                // Validate user input
+
                 if (!validateInputs(email, password)) {
                     return;
                 }
 
-                // Attempt login with Firebase
+
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(Activity_Login.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    // Show success message
+
                                     Toast.makeText(Activity_Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                                    // Redirect to MainActivity
+
                                     Intent intent = new Intent(Activity_Login.this, MainActivity.class);
                                     startActivity(intent);
-                                    finish();  // Optional: Close login activity
+                                    finish();
                                 } else {
-                                    // Show error message
+
                                     String errorMessage = "Login failed. Please check your credentials.";
                                     if (task.getException() != null) {
                                         errorMessage = task.getException().getMessage();
@@ -79,7 +79,7 @@ public class Activity_Login extends AppCompatActivity {
             }
 
         });
-        // Set signup button click listener to redirect to RegisterActivity
+
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +91,7 @@ public class Activity_Login extends AppCompatActivity {
 
 
 
-    // Client-side validation method
+
     private boolean validateInputs(String email, String password) {
         if (TextUtils.isEmpty(email)) {
             editTextEmail.setError("Email is required");

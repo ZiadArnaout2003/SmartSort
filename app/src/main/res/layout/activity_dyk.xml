@@ -9,8 +9,6 @@
     android:background="@android:color/white"
     android:padding="24dp">
 
-    <!-- Title -->
-
     <TextView
         android:id="@+id/fact_title"
         android:layout_width="213dp"
@@ -34,7 +32,6 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- Fact Box -->
     <LinearLayout
         android:id="@+id/fact_box"
         android:layout_width="match_parent"

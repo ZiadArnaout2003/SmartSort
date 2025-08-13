@@ -8,7 +8,7 @@
     android:padding="16dp"
     android:background="#F5F5F5">
 
-    <!-- SmartSort Title -->
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Leaf Icon beside the title -->
+
     <ImageView
         android:id="@+id/leafIcon"
         android:layout_width="40dp"
@@ -47,7 +47,7 @@
         app:layout_constraintStart_toStartOf="@id/title"
         />
 
-    <!-- 5. Statistics Container -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pieChartContainer"
         android:layout_width="342dp"

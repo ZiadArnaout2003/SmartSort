@@ -24,7 +24,6 @@ public class BinStatus extends NavigationBar {
     private TextView bin1StatusView, bin2StatusView;
     private TextView bin1LastFullView, bin2LastFullView;
 
-    // Count views
     private TextView bin1CanCountView, bin1BottleCountView;
     private TextView bin2OthersCountView, bin1TotalCountView;
 
@@ -40,18 +39,18 @@ public class BinStatus extends NavigationBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Inflate the layout with navigation bar
+
         setContentView(R.layout.navigation_bar);
 
-        // Inject bin_status.xml inside content_frame
+
         FrameLayout contentFrame = findViewById(R.id.content_frame);
         View contentView = getLayoutInflater().inflate(R.layout.bin_status, contentFrame, false);
         contentFrame.addView(contentView);
 
-        // Setup drawer
+
         setupDrawer();
 
-        // Initialize views from contentView
+
         bin1StatusView = contentView.findViewById(R.id.text_bin1_status);
         bin2StatusView = contentView.findViewById(R.id.text_bin2_status);
         bin1LastFullView = contentView.findViewById(R.id.text_bin1_last_full);
@@ -71,7 +70,7 @@ public class BinStatus extends NavigationBar {
     private void loadStatus(String binName, TextView statusView, TextView lastFullView, String RealName) {
         DatabaseReference statusRef = databaseRef.child(binName).child("status");
 
-        // Get the initial value once to set lastBinStatus properly
+
         statusRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -92,7 +91,7 @@ public class BinStatus extends NavigationBar {
         });
 
 
-        // Load last "not full" timestamp
+
         String notFullPath = "BinStatus/" + binName + "/notfull";
         databaseRef.child(notFullPath).orderByKey().limitToLast(1)
                 .addListenerForSingleValueEvent(new ValueEventListener() {

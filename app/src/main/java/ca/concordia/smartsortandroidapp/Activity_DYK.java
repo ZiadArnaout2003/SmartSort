@@ -49,7 +49,7 @@ public class Activity_DYK extends NavigationBar {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
-        // Initialize the first facts on the card viewer
+
         Random random = new Random();
         int randomPosition = random.nextInt(adapter.getItemCount());
         viewPager.setCurrentItem(randomPosition, false);
@@ -75,7 +75,7 @@ public class Activity_DYK extends NavigationBar {
                     jsonString.append(line);
                 }
                 reader.close();
-                // Parse JSON using Gson
+
                 Gson gson = new Gson();
                 Type type = new TypeToken<Map<String, String[]>>(){}.getType();
                 Map<String, String[]> jsonMap = gson.fromJson(jsonString.toString(), type);
@@ -89,7 +89,7 @@ public class Activity_DYK extends NavigationBar {
                 Log.e("Activity_DYK", "Error parsing JSON: " + e.getMessage());
             }
 
-            // Fallback facts if JSON loading fails
+
             String[] fallbackFacts = {
                     "Did you know? Recycling one glass bottle saves enough energy to light a 100-watt bulb for four hours.",
                     "Did you know? Recycling cardboard only takes 75% of the energy required to make new cardboard.",
@@ -98,10 +98,10 @@ public class Activity_DYK extends NavigationBar {
                     "Did you know? Recycling 1 ton of cardboard saves 46 gallons of oil."
             };
 
-            // Use loaded facts if available, otherwise use fallback
+
             String[] availableFacts = (loadedFacts != null && loadedFacts.length > 0) ? loadedFacts : fallbackFacts;
 
-            // Select a random fact
+
             Random random = new Random();
             fact = availableFacts[random.nextInt(availableFacts.length)];
         }

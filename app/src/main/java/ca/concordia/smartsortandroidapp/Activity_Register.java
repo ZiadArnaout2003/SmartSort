@@ -41,17 +41,17 @@ public class Activity_Register extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getColor(R.color.green));
         getWindow().getDecorView().setSystemUiVisibility(0);
-        // Initialize Firebase Auth
+
         mAuth = FirebaseAuth.getInstance();
 
-        // Find views by ID
+
         editTextEmail = findViewById(R.id.RegisterEmail);
         editTextPhone = findViewById(R.id.RegisterPhone);
         editTextPassword = findViewById(R.id.RegisterPassword);
         editTextConfirmPassword = findViewById(R.id.RegisterConfirmPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
 
-        // Set register button click listener
+
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,12 +60,12 @@ public class Activity_Register extends AppCompatActivity {
                 String password = editTextPassword.getText().toString().trim();
                 String confirmPassword = editTextConfirmPassword.getText().toString().trim();
 
-                // Validate user input
+
                 if (!validateInputs(email, phone, password, confirmPassword)) {
                     return;
                 }
 
-                // Attempt registration with Firebase
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(Activity_Register.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -83,13 +83,13 @@ public class Activity_Register extends AppCompatActivity {
                                     userData.put("uid", uid);
                                     db.collection("users").document(uid).set(userData);
 
-                                    // Show success message and redirect
+
                                     Toast.makeText(Activity_Register.this, "Registration successful!", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Activity_Register.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
-                                    // Show error message
+
                                     String errorMessage = "Registration failed. Please try again.";
                                     if (task.getException() != null) {
                                         errorMessage = task.getException().getMessage();
@@ -105,7 +105,7 @@ public class Activity_Register extends AppCompatActivity {
         btnBack.setOnClickListener(v -> onBackPressed());
     }
 
-    // Client-side validation method
+
     private boolean validateInputs(String email, String phone, String password, String confirmPassword) {
         if (TextUtils.isEmpty(email)) {
             editTextEmail.setError("Email is required");
